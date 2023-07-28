@@ -57,7 +57,7 @@ def game():
         os.system("cls")
         #事件
         if data["days"] == 0:
-            data = texts.day0(data)
+            data = texts.main0(data)
         
         
         #下一天
@@ -88,7 +88,7 @@ def game():
             elif event == -2:
                 function.bag(data)
             elif event == 1:
-                texts.day1(data)
+                data = texts.main1(data)
 
         #存档
         res = function.select(["存档并进入下一天","不保存并退出","保存并退出"])

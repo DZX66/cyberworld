@@ -23,7 +23,7 @@ def library():
             break
         elif res==1:
             function.talk("赛博世界（cyberworld）",0)
-def day0(data):
+def main0(data):
     '''id:0'''
     if function.select(["是","否"],"要跳过吗？")==0:
         data["bag"][0] = 1
@@ -142,7 +142,7 @@ def day0(data):
     return data
 
 
-def day1(data):
+def main1(data):
     '''id:1'''
     function.talk("教程-自由行动",0)
     function.talk("每天，你可以自由行动。",0)
@@ -198,5 +198,8 @@ def day1(data):
     function.select(["那我去旅馆了。"])
     os.system("cls")
     function.talk("你到了旅馆。")
+    data["location"]="hotel"
     function.talk("旅馆不大，但还算温馨，光线并不亮，看起来不错。")
+    data["passed_events"].append(1)
+    return data
 
