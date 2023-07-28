@@ -81,10 +81,28 @@ def battle(data,enemy):
     '''返回值0：data 返回值1：0：胜利 -1：逃跑 -2：失败'''
     monster_hp = enemies(enemy)[2]
     player_hp = data["hp"]
+    monster_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
+    player_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
     while True:
         print("\n~~~战斗开始~~~\n")
         print(enemies(enemy)[1]+" 生命值 =", monster_hp)
+        if monster_effects["blood_losing"]>0:
+            print("流血",monster_effects["blood_losing"])
+        if monster_effects["healing"]>0:
+            print("自愈",monster_effects["healing"])
+        if monster_effects["powered"]>0:
+            print("力量",monster_effects["powered"])
+        if monster_effects["weak"]>0:
+            print("虚弱",monster_effects["weak"])
         print("你的生命值 =", player_hp)
+        if player_effects["blood_losing"]>0:
+            print("流血",player_effects["blood_losing"])
+        if player_effects["healing"]>0:
+            print("自愈",player_effects["healing"])
+        if player_effects["powered"]>0:
+            print("力量",player_effects["powered"])
+        if player_effects["weak"]>0:
+            print("虚弱",player_effects["weak"])
 
         action = {}
         if True:
@@ -110,11 +128,13 @@ def battle(data,enemy):
         if choice == 1:
             damage = random.randint(10, 15)
             monster_hp -= damage
-            print("你使用", data["skills"]['1'], "对怪物造成了", damage, "点伤害！")
+            print("你使用", data["skills"]['1'], "对敌方造成了", damage, "点伤害！")
         elif choice == 2:
-            damage = random.randint(10, 15)
+            damage = random.randint(5, 10)
             monster_hp -= damage
-            print("你使用", data["skills"]['2'], "对怪物造成了", damage, "点伤害！")
+            print("你使用", data["skills"]['2'], "对敌方造成了", damage, "点伤害！")
+            monster_effects["blood_losing"] += 3
+            print(data["skills"]['2'],"的效果：敌方流血+3")
         elif choice == 3:
             heal = random.randint(10, 15)
             if player_hp < 100:
@@ -128,9 +148,14 @@ def battle(data,enemy):
             talk("你选择逃跑！")
             data["hp"]=player_hp
             return [data,-1]
+        
+        if monster_effects["blood_losing"]>0:
+            monster_hp -= 3*monster_effects["blood_losing"]
+            print("敌方受到流血伤害",3*monster_effects["blood_losing"],"点！")
+            monster_effects["blood_losing"] -= 1
 
         if monster_hp <= 0:
-            talk("你战胜了怪物！")
+            talk("你胜利了！")
             data["hp"]=player_hp
             return [data,0]
         
@@ -139,10 +164,15 @@ def battle(data,enemy):
         if monster_choice[1] == "attack":
             damage = random.randint(monster_choice[2], monster_choice[3])
             player_hp -= damage
-            print("怪物用",monster_choice[0],"对你造成了", damage, "点伤害！")
+            print("敌方用",monster_choice[0],"对你造成了", damage, "点伤害！")
+        
+        if player_effects["blood_losing"]>0:
+            player_hp -= 3*player_effects["blood_losing"]
+            print("你受到流血伤害",3*player_effects["blood_losing"],"点！")
+            player_effects["blood_losing"] -= 1
 
         if player_hp <= 0:
-            talk("你被怪物击败了！")
+            talk("你输了......")
             data["hp"]=player_hp
             return [data,-2]
         talk("")
