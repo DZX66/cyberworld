@@ -72,7 +72,7 @@ def game():
                 action[-1] = "下一天"
             if True:
                 action[-2] = "背包"
-            if 0 in data["passed_events"] and 1 not in data["passed_events"]:
+            if 0 in data["passed_events"] and 1 not in data["passed_events"] and data["location"]=="plain":
                 action[1] = "【主线】你发现了一个巨大的泡泡，蓝色的"
             selection = []
             for i in action:
