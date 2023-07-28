@@ -6,11 +6,11 @@ import json
 import time
 import random
 
-def error(str):
+def error(str:str):
     os.system("color 4")
     input(str)
     sys.exit()
-def select(selection,introduction=""):
+def select(selection:list,introduction=""):
     if len(selection)>10:
         error("[error] 选择项超过十")
     print("="*20)
@@ -27,13 +27,13 @@ def select(selection,introduction=""):
     while not (get in w):
         get = msvcrt.getch()
     return int(get)
-def items(id):
+def items(id:int):
     item_info = {
         0:["【荒原】的权限","荒原访客的证明，是玛莉特送给你的礼物。"],
         1:["齿轮","铜质，略有锈斑，好像用了挺久的。"]
     } 
     return item_info[id]
-def bag(data):
+def bag(data:dict):
     if data["bag"]==0:
         print("啥也没有")
         input("▼")
@@ -60,7 +60,7 @@ def bag(data):
         elif get==b"\r":
             return focus
     return -1
-def talk(text,wait=True):
+def talk(text:str,wait=True):
     if wait:
         time.sleep(0.2)
         print(text+"\033[s▼",end="",flush=True)
@@ -70,15 +70,16 @@ def talk(text,wait=True):
         print("\033[u\033[K")
     else:
         print(text)
-def enemies(id):
+def enemies(id:int):
     '''返回元组：(int id,str name,int hp,list skills,bool is_escaped)
     list skills:name,type,begin,end
     availabe type:attack,heal'''
     if id==0:
         return (0,"自动保卫系统",40,[["攻击","attack",5,10]],False)
 
-def battle(data,enemy):
-    '''返回值0：data 返回值1：0：胜利 -1：逃跑 -2：失败'''
+def battle(data:dict,enemy:int):
+    '''返回值：[data,result]
+    result:0：胜利 -1：逃跑 -2：失败'''
     monster_hp = enemies(enemy)[2]
     player_hp = data["hp"]
     monster_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
