@@ -57,7 +57,7 @@ def game():
         os.system("cls")
         #事件
         if data["days"] == 0:
-            data = texts.main0(data)
+            data = function.event(data,0)
         
         
         #下一天
@@ -72,8 +72,12 @@ def game():
                 action[-1] = "下一天"
             if True:
                 action[-2] = "背包"
-            if 0 in data["passed_events"] and 1 not in data["passed_events"] and data["location"]=="plain":
-                action[1] = "【主线】你发现了一个巨大的泡泡，蓝色的"
+            f=open("events/index.json","r",encoding="utf-8")
+            events = json.load(f)
+            f.close()
+            for i in events:
+                if eval(events[i][3]):
+                    action[int(i)] = events[i][5]
             selection = []
             for i in action:
                 selection.append([i,action[i]])
@@ -87,8 +91,8 @@ def game():
                 break
             elif event == -2:
                 function.bag(data)
-            elif event == 1:
-                data = texts.main1(data)
+            else:
+                data = function.event(data,event)
 
         #存档
         res = function.select(["存档并进入下一天","不保存并退出","保存并退出"])

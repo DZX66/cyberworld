@@ -1,14 +1,10 @@
 {
-    "bag": {
-        "0": 1
-    },
-    "days": 1,
+    "bag": {},
+    "days": 0,
     "golds": 1000,
-    "hp": 92,
-    "location": "plain",
-    "passed_events": [
-        0
-    ],
+    "hp": 100,
+    "location": "",
+    "passed_events": [],
     "san": 80,
     "skills": {
         "1": "\u666e\u901a\u653b\u51fb",

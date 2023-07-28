@@ -177,3 +177,58 @@ def battle(data:dict,enemy:int):
             data["hp"]=player_hp
             return [data,-2]
         talk("")
+
+def library():
+    os.system("cls")
+    time.sleep(1)
+    talk("这是什么？图书馆？看一下！")
+    while True:
+        res = select(["不看了","赛博世界","荒原","城镇","行政区","核心","意识体","中枢"])
+        if res==0:
+            talk("哈？")
+            break
+        elif res==1:
+            talk("赛博世界（cyberworld）",0)
+def event(data:dict,id:int):
+    ''''''
+    f=open("events/index.json","r",encoding="utf-8")
+    path = json.load(f)[str(id)][1]
+    f.close()
+    f=open(path,"r",encoding="utf-8")
+    w=f.readlines()
+    f.close()
+    if eval(w[3][:-1]):
+        data["passed_events"].append(int(id))
+        data["bag"][0] = 1
+        data["location"] = "plain"
+        return data
+    w = w[5:]
+    code = ""
+    p = 0
+    for i in w:
+        place = 0
+        while i.startswith("    "):
+            i = i[4:]
+            place += 1
+        if i.startswith("/"):
+            i = "os.system('''"+i[1:-1]+"''')\n"
+        elif i.startswith("**"):
+            i = i[2:]
+        elif i.startswith("-"):
+            i = "talk('''"+i[1:-1]+"''',0)\n"
+        elif i.startswith("    "):
+            i = "talk('''"+i.lstrip()[:-1]+"''')\n"
+        elif i=="\n":
+            i = "print()\n"
+        else:
+            i = "talk('''"+i[:-1]+"''')\n"
+        while place >0:
+            i = "    "+i
+            place -=1
+        w[p]=i
+        p+=1
+    for i in w:
+        code +=i
+    exec(code)
+    data["passed_events"].append(int(id))
+    return data

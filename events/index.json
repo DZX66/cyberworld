@@ -1,0 +1,18 @@
+{
+    "0": [
+        0,
+        "events\\main0",
+        "\u4e00\u4e2a\u5f00\u59cb",
+        "0 not in data[\"passed_events\"]",
+        true,
+        ""
+    ],
+    "1": [
+        1,
+        "events\\main1",
+        "\u8fdb\u5165\u5c40\u57df\u7f51",
+        "0 in data[\"passed_events\"] and 1 not in data[\"passed_events\"] and data[\"location\"]==\"plain\"",
+        true,
+        "\u3010\u4e3b\u7ebf\u3011\u4f60\u53d1\u73b0\u4e86\u4e00\u4e2a\u5de8\u5927\u7684\u6ce1\u6ce1\uff0c\u84dd\u8272\u7684"
+    ]
+}
