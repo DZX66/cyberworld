@@ -33,6 +33,13 @@ def items(id:int):
         1:["齿轮","铜质，略有锈斑，好像用了挺久的。"]
     } 
     return item_info[id]
+def get_item(data:dict,id:int,number:int):
+    '''添加物品进背包，返回data'''
+    if id in data["bag"]:
+        data["bag"][id] += number
+    else:
+        data["bag"][id] = number
+    return data
 def bag(data:dict):
     if data["bag"]==0:
         print("啥也没有")

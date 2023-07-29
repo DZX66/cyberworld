@@ -109,5 +109,5 @@ IP: 127.0.0.1
 **elif res==1:
     【玛莉特】 我没那个能耐啊......
 【玛莉特】 就靠你啦!
-**data["bag"][0] = 1
+**data = get_item(data,0,1)
 **data["location"] = "plain"
