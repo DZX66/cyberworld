@@ -13,11 +13,11 @@ def write_script():
             talker.append(custom_sender)
         content = input("请输入内容：")
         if sender == 1:
-            script += f'function.talk("【{custom_sender}】 {content}")\n'
+            script += f'【{custom_sender}】 {content}\n'
         elif sender == 2:
-            script += f'function.talk("{content}")\n'
+            script += f'{content}\n'
         else:
-            script += f'function.talk("【{talker[sender-3]}】 {content}")\n'
+            script += f'【{talker[sender-3]}】 {content}\n'
 
     return script
 
