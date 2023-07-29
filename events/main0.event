@@ -73,7 +73,7 @@ True
     【玛莉特】 这都是刚出炉的，肯定保熟b(￣▽￣)d
 **elif res==1:
     【玛莉特】 ？你认真的？
-    /explorer https://baike.baidu.com/item/%E8%A1%A8%E5%8D%95/
+    /explorer https://baike.baidu.com/item/表单
 **elif res==2:
     【玛莉特】 那是什么？
 你填写了表单。
@@ -83,10 +83,7 @@ IP: 127.0.0.1
 密钥： 
 **select(["密钥？"])
 【玛莉特】 啊，这个我来填。
-/c:
-/cd '''+os.path.join("c:/Users/",os.getlogin())+'''
-/tree
-/cls
+/c:&cd '''+os.path.join("c:/Users/",os.getlogin())+'''&tree&cls
 【玛莉特】 呼~填完了，走吧。
 【玛莉特】 额，你怎么了？
 **res = select(["刚才闪过去的是......","没什么。"],"刚才......")
