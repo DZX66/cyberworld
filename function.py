@@ -204,38 +204,72 @@ def event(data:dict,id:int):
     f=open(path,"r",encoding="utf-8")
     w=f.readlines()
     f.close()
+    res = 0
     if eval(w[3][:-1]):
-        data["passed_events"].append(int(id))
-        data["bag"][0] = 1
-        data["location"] = "plain"
-        return data
+        res = select(["否","是"],"要跳过吗？")
     w = w[5:]
     code = ""
-    p = 0
-    for i in w:
-        place = 0
-        while i.startswith("    "):
-            i = i[4:]
-            place += 1
-        if i.startswith("/"):
-            i = "os.system('''"+i[1:-1]+"''')\n"
-        elif i.startswith("**"):
-            i = i[2:]
-        elif i.startswith("-"):
-            i = "talk('''"+i[1:-1]+"''',0)\n"
-        elif i.startswith("    "):
-            i = "talk('''"+i.lstrip()[:-1]+"''')\n"
-        elif i=="\n":
-            i = "print()\n"
-        else:
-            i = "talk('''"+i[:-1]+"''')\n"
-        while place >0:
-            i = "    "+i
-            place -=1
-        w[p]=i
-        p+=1
-    for i in w:
-        code +=i
+    if res:
+        #跳过
+        p = 0
+        for i in w:
+            place = 0
+            while i.startswith("    "):
+                i = i[4:]
+                place += 1
+            if i.startswith("/"):
+                if i[1:].startswith("cls"):
+                    i=""
+                else:
+                    i = "os.system('''"+i[1:-1]+"''')\n"
+            elif i.startswith("**"):
+                i = i[2:]
+                if i.startswith("time.sleep"):
+                    i=""
+                if i.startswith("library"):
+                    i = 'print("打开了图书馆。")\n'
+            elif i.startswith("-"):
+                i = "talk('''"+i[1:-1]+"''',0)\n"
+            elif i.startswith("    "):
+                i = "talk('''"+i.lstrip()[:-1]+"''',0)\n"
+            elif i=="\n":
+                i = "print()\n"
+            else:
+                i = "talk('''"+i[:-1]+"''',0)\n"
+            while place >0:
+                i = "    "+i
+                place -=1
+            w[p]=i
+            p+=1
+        for i in w:
+            code +=i
+    else:
+        #正常
+        p = 0
+        for i in w:
+            place = 0
+            while i.startswith("    "):
+                i = i[4:]
+                place += 1
+            if i.startswith("/"):
+                i = "os.system('''"+i[1:-1]+"''')\n"
+            elif i.startswith("**"):
+                i = i[2:]
+            elif i.startswith("-"):
+                i = "talk('''"+i[1:-1]+"''',0)\n"
+            elif i.startswith("    "):
+                i = "talk('''"+i.lstrip()[:-1]+"''')\n"
+            elif i=="\n":
+                i = "print()\n"
+            else:
+                i = "talk('''"+i[:-1]+"''')\n"
+            while place >0:
+                i = "    "+i
+                place -=1
+            w[p]=i
+            p+=1
+        for i in w:
+            code +=i
     exec(code)
     data["passed_events"].append(int(id))
     return data
