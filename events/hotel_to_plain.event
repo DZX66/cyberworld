@@ -1,0 +1,6 @@
+3
+地点转换hotel to plain
+data["location"]=="hotel"
+False
+走出旅馆
+**data["location"]="plain"
