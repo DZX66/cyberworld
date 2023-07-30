@@ -7,7 +7,7 @@ path = "events"
 for file in os.listdir(path):
     file_path = os.path.join(path, file)
     if os.path.isfile(file_path):
-        if ".json"in file_path or ".md" in file_path:
+        if not ".event" in file_path:
             continue
         f = open(file_path,"r",encoding="utf-8")
         res = f.readlines()
