@@ -14,15 +14,15 @@
 
 function.select的使用：
     
-    \*\*res = function.select(["我有问题。","跟随它。"])
+    **res = function.select(["我有问题。","跟随它。"])
     
-    \*\*if res==0:
+    **if res==0:
     
         【玛莉特】 别，等会你就知道了。
     
         【玛莉特】 【图书馆】里的资料应该够你看的。
     
-    \*\*elif res==1
+    **elif res==1
     
         pass
 
