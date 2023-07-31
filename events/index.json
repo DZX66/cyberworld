@@ -1,7 +1,7 @@
 {
     "0": [
         0,
-        "events\\main0.event",
+        "events\\main\\main0.event",
         "\u4e00\u4e2a\u5f00\u59cb",
         "0 not in data[\"passed_events\"]",
         true,
@@ -9,7 +9,7 @@
     ],
     "1": [
         1,
-        "events\\main1.event",
+        "events\\main\\main1.event",
         "\u8fdb\u5165\u5c40\u57df\u7f51",
         "0 in data[\"passed_events\"] and 1 not in data[\"passed_events\"] and data[\"location\"]==\"plain\"",
         false,
@@ -17,7 +17,7 @@
     ],
     "2": [
         2,
-        "events\\officer.event",
+        "events\\talking\\officer.event",
         "\u4e0e\u957f\u5b98\u7684\u5bf9\u8bdd",
         "1 in data[\"passed_events\"] and 2 not in data[\"passed_events\"] and data[\"location\"]==\"hotel\"",
         false,
@@ -25,7 +25,7 @@
     ],
     "3": [
         3,
-        "events\\hotel_to_plain.event",
+        "events\\place_moving\\hotel_to_plain.event",
         "\u5730\u70b9\u8f6c\u6362hotel to plain",
         "data[\"location\"]==\"hotel\"",
         false,
@@ -33,7 +33,7 @@
     ],
     "4": [
         4,
-        "events\\plain_to_hotel.event",
+        "events\\place_moving\\plain_to_hotel.event",
         "\u5730\u70b9\u8f6c\u6362plain to hotel",
         "data[\"location\"]==\"plain\" and 1 in data[\"passed_events\"]",
         false,
@@ -41,7 +41,7 @@
     ],
     "100": [
         100,
-        "events\\phi0.event",
+        "events\\phigros\\phi0.event",
         "phigros\u7ebf-\u5f00\u59cb",
         "1 in data[\"passed_events\"] and 2 not in data[\"passed_events\"] and 100 not in data[\"passed_events\"] and data[\"location\"]==\"plain\"",
         false,

@@ -23,6 +23,17 @@ if res==0:
             f.close()
             events[int(res[0][:-1])]=[int(res[0][:-1]),file_path,res[1][:-1],res[2][:-1],bool(eval(res[3][:-1])),res[4][:-1]]
             ws.append([int(res[0][:-1]),file_path,res[1][:-1],res[2][:-1],res[3][:-1],res[4][:-1]])
+        else:
+            for file1 in os.listdir(os.path.join(file_path)):
+                file_path1 = os.path.join(file_path,file1)
+                if os.path.isfile(file_path1):
+                    if not ".event" in file_path1:
+                        continue
+                    f = open(file_path1,"r",encoding="utf-8")
+                    res = f.readlines()
+                    f.close()
+                    events[int(res[0][:-1])]=[int(res[0][:-1]),file_path1,res[1][:-1],res[2][:-1],bool(eval(res[3][:-1])),res[4][:-1]]
+                    ws.append([int(res[0][:-1]),file_path1,res[1][:-1],res[2][:-1],res[3][:-1],res[4][:-1]])
     f = open("events/index.json","w",encoding="utf-8")
     datar = json.dumps(events, sort_keys=True, indent=4, separators=(',', ': '))
     f.write(datar)
