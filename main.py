@@ -95,7 +95,7 @@ def game():
                 data = function.event(data,event)
 
         #存档
-        res = function.select(["存档并进入下一天","不保存并退出","保存并退出"])
+        res = function.select(["存档并进入下一天","不保存并退出","保存并退出"],"你要对自己的选择负责......")
         if res==0:
             save_saving(data)
         elif res==1:
