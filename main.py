@@ -20,7 +20,7 @@ def create_saving():
     "days": 0,
     "golds": 1000,
     "san": 80,
-    "bag": {},
+    "bag": {'2':1,'3':1,'4':1},
     "passed_events": [],
     "location": "",
     "hp":100,
@@ -46,7 +46,7 @@ def save_saving(data):
     try:
         with open("save.save", "w", encoding="utf-8") as f:
             f.write(datar)
-        print("存档成功！")
+        function.talk("存档成功！")
     except Exception as e:
         print("存档失败：", e)
 
@@ -136,13 +136,13 @@ def main():
         elif res==2:
             break
 
-""" if __name__=="__main__":
+if __name__=="__main__":
     if is_admin():
         main()
     else:
         if not os.path.exists("save.save"):
             input("你需要给予管理员权限才能继续（用于读写存档），按下enter给予管理员权限")
         ctypes.windll.shell32.ShellExecuteW(None,"runas",sys.executable,__file__,None,1)
- """
 
-main()
+
+#main()

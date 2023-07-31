@@ -30,15 +30,18 @@ def select(selection:list,introduction=""):
 def items(id:int):
     item_info = {
         0:["【荒原】的权限","荒原访客的证明，是玛莉特送给你的礼物。"],
-        1:["齿轮","铜质，略有锈斑，好像用了挺久的。"]
+        1:["齿轮","铜质，略有锈斑，好像用了挺久的。"],
+        2:["普通攻击","10-15伤害\n常见的delete函数，很容易被防御。"],
+        3:["火球术","5-10伤害，流血+3\n-为啥火球能造成流血呢？-废话，燃烧不就是流血吗。"],
+        4:["治疗术","10-15回复，血量100及以上时只有80%的效果，200及以上只有50%的效果（四舍五入）\n不会有人用这个堆到1000点hp吧？"]
     } 
     return item_info[id]
 def get_item(data:dict,id:int,number:int):
     '''添加物品进背包，返回data'''
     if id in data["bag"]:
-        data["bag"][id] += number
+        data["bag"][str(id)] += number
     else:
-        data["bag"][id] = number
+        data["bag"][str(id)] = number
     return data
 def bag(data:dict):
     if data["bag"]==0:
@@ -50,13 +53,14 @@ def bag(data:dict):
     while not(get==b"q"):
         os.system("cls")
         n = 0
+        print("\033[1;30m")
         for i in data["bag"]:
             if n == focus:
-                print(">"+items(i)[0]+" * "+str(data['bag'][i])+" \033[0;37m#"+str(i)+" "+items(i)[1])
+                print("\033[1;37m>"+items(int(i))[0]+" * "+str(data['bag'][i])+" \033[0;37m#"+str(i)+" "+items(int(i))[1]+"\033[1;30m")
             else:
-                print(items(i)[0]+" * "+str(data['bag'][i]))
+                print(items(int(i))[0]+" * "+str(data['bag'][i]))
             n+=1
-        print("Q-退出 W-上一个 S-下一个 Enter-使用")
+        print("\033[0mQ-退出 W-上一个 S-下一个 Enter-使用")
         get = msvcrt.getch()
         if get==b"s":
             if focus<len(data["bag"])-1:
@@ -65,7 +69,7 @@ def bag(data:dict):
             if focus>0:
                 focus -= 1
         elif get==b"\r":
-            return focus
+            talk("used "+str(list(data["bag"])[focus]))
     return -1
 def talk(text:str,wait=True):
     if wait:
