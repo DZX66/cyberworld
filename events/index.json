@@ -38,5 +38,13 @@
         "data[\"location\"]==\"plain\" and 1 in data[\"passed_events\"]",
         false,
         "\u65c5\u9986"
+    ],
+    "100": [
+        100,
+        "events\\phi0.event",
+        "phigros\u7ebf-\u5f00\u59cb",
+        "1 in data[\"passed_events\"] and 2 not in data[\"passed_events\"] and 100 not in data[\"passed_events\"] and data[\"location\"]==\"plain\"",
+        false,
+        "\u3010\u652f\u7ebf\u3011\u8fdc\u65b9\u6709\u4e00\u5ea7\u5854\uff0c\u82e5\u9690\u82e5\u73b0"
     ]
 }

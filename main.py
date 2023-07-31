@@ -136,7 +136,7 @@ def main():
         elif res==2:
             break
 
-if __name__=="__main__":
+""" if __name__=="__main__":
     if is_admin():
         main()
     else:
@@ -144,5 +144,5 @@ if __name__=="__main__":
             input("你需要给予管理员权限才能继续（用于读写存档），按下enter给予管理员权限")
         ctypes.windll.shell32.ShellExecuteW(None,"runas",sys.executable,__file__,None,1)
 
-
-#main()
+ """
+main()
