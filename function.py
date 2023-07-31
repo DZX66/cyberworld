@@ -78,13 +78,13 @@ def talk(text:str,wait=True):
     else:
         print(text)
 def enemies(id:int):
-    '''返回元组：(int id,str name,int hp,list skills,bool is_escaped)
+    '''返回元组：(int id,str name,int hp,list skills)
     list skills:name,type,begin,end
     availabe type:attack,heal'''
     if id==0:
-        return (0,"自动保卫系统",40,[["攻击","attack",5,10]],False)
+        return (0,"自动保卫系统",40,[["攻击","attack",5,10]])
 
-def battle(data:dict,enemy:int):
+def battle(data:dict,enemy:int,is_escaped:bool):
     '''返回值：[data,result]
     result:0：胜利 -1：逃跑 -2：失败'''
     monster_hp = enemies(enemy)[2]
@@ -119,7 +119,7 @@ def battle(data:dict,enemy:int):
             action[2] = data["skills"]['2']
         if True:
             action[3] = data["skills"]['3']
-        if enemies(enemy)[4]:
+        if is_escaped:
             action[4] = "逃跑"
 
         selection = []
