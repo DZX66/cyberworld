@@ -54,8 +54,8 @@ def save_saving(data):
 def game():
     global data
     os.system("cls")
-    pygame.mixer.music.stop()
-    time.sleep(1)
+    pygame.mixer.music.fadeout(500)
+    time.sleep(0.5)
     while True:
         os.system("cls")
         #事件
@@ -119,8 +119,8 @@ def main():
     print("准备...")
     while pygame.mixer.music.get_busy():
         pass
-    pygame.mixer.music.load("audio/Startover.flac")
-    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.load("audio/Sink.flac")
+    pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
     os.system("title sever:127.0.0.1")
     while True:
