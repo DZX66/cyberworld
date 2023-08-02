@@ -5,7 +5,7 @@ import function
 import os
 import json
 import texts
-import random
+import pygame
 import ctypes
 import sys
 
@@ -53,6 +53,9 @@ def save_saving(data):
 
 def game():
     global data
+    os.system("cls")
+    pygame.mixer.music.stop()
+    time.sleep(1)
     while True:
         os.system("cls")
         #事件
@@ -107,6 +110,18 @@ def game():
 
 
 def main():
+    print("赛博世界CyberWorld")
+    pygame.mixer.init()
+    pygame.mixer.music.load("audio/Introduction.mp3")
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play()
+    time.sleep(3.9)
+    print("准备...")
+    while pygame.mixer.music.get_busy():
+        pass
+    pygame.mixer.music.load("audio/Startover.flac")
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play(-1)
     os.system("title sever:127.0.0.1")
     while True:
         os.system("cls")

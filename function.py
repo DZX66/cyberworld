@@ -5,6 +5,7 @@ import msvcrt
 import json
 import time
 import random
+import pygame
 
 def error(str:str):
     os.system("color 4")

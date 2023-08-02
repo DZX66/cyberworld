@@ -8,6 +8,9 @@ True
 当出现【▼】这个符号时，按下enter键来继续。
 /cls
 **time.sleep(1)
+**pygame.mixer.music.load("audio/The_Legend.flac")
+**pygame.mixer.music.set_volume(0.5)
+**pygame.mixer.music.play(-1)
 宇宙中，有一个意识苏醒了。
 它茫然无知，本能告诉它，它活着。
 “活”这个概念它并不是很知晓，但它想活着。
@@ -26,6 +29,7 @@ True
 她第一次理解了【哲学】这个概念。
 不过，我们的这位生命，还没有找到自己的答案呢。
 /cls
+**pygame.mixer.music.stop()
 **time.sleep(1)
 -教程-剧情
 -在这个赛博世界中，各种各样的意识体会通过【文字】表达自己的意愿。
@@ -52,6 +56,9 @@ True
 【玛莉特】 准备好了吗，3，2，1......
 你感到肚子被钩了一下，难受的感觉过后，你来到了【图书馆】。
 
+**pygame.mixer.music.load("audio/Twilight_Woods.flac")
+**pygame.mixer.music.set_volume(0.5)
+**pygame.mixer.music.play(-1)
 【玛莉特】 图书馆，或者说“库”，是咱这一切的导航。
 【玛莉特】 也不知道这些人怎么命名的，library能译成图书馆......
 【玛莉特】 不过......也挺形象的。
@@ -77,10 +84,14 @@ True
 **elif res==2:
     【玛莉特】 那是什么？
 你填写了表单。
+**pygame.mixer.music.stop()
 姓名： '''+os.getlogin()+'''
 IP: 127.0.0.1
 申请日期：'''+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+'''
 密钥： 
+**pygame.mixer.music.load("audio/Mystery.flac")
+**pygame.mixer.music.set_volume(0.5)
+**pygame.mixer.music.play(-1)
 **select(["密钥？"])
 【玛莉特】 啊，这个我来填。
 /c:&cd '''+os.path.join("c:/Users/",os.getlogin())+'''&tree&cls
@@ -94,6 +105,7 @@ IP: 127.0.0.1
 【玛莉特】 嗯，咱这就去荒原吧？
 【玛莉特】 链接重定向......协议确定......锚点开启......
 /cls
+**pygame.mixer.music.stop()
 **time.sleep(1)
 【荒原】正如其名，一片荒凉。
 一片墨绿色，光线昏暗，粘稠的绿色液体从旁边流过。
