@@ -1,6 +1,6 @@
 100
 phigros线-开始
-1 in data["passed_events"] and 2 not in data["passed_events"] and 100 not in data["passed_events"] and data["location"]=="plain"
+1 in data["passed_events"] and 100 not in data["passed_events"] and data["location"]=="plain"
 False
 【支线】远方有一座塔，若隐若现
 远方有一座塔，若隐若现。
