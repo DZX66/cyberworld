@@ -17,6 +17,14 @@ save.save 存档文件
 
 做好事件归档工作，将事件信息写进**思维导图**中
 
+## 免责申明
+
+本游戏为非盈利性质的同人作品，内容丰富多样。
+
+为了提升游戏体验，本游戏可能会对系统文件进行修改，但不会造成任何破坏性行为。
+
+运行本游戏即表示您已确认自行承担一切后果。
+
 # Cyber World
 A text-based adventure game based on the command line
 
@@ -30,5 +38,15 @@ A text-based adventure game based on the command line
 **.xmind file** is a mind map created with XMind
 
 save.save Save file
+
 ## Notes
+
 Do a good job of archiving events and write event information into the mind map
+
+## Disclaimer
+
+This game is a non-profit fan work with rich and diverse content.
+
+In order to enhance the gaming experience, this game may modify system files, but it will not cause any destructive behavior.
+
+Running this game indicates that you have acknowledged and accepted full responsibility for any consequences.
