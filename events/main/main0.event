@@ -142,7 +142,9 @@ IP: 127.0.0.1
 【玛莉特】 嗯，咱这就去荒原吧？
 【玛莉特】 链接重定向......协议确定......锚点开启......
 /cls
-**pygame.mixer.music.stop()
+**pygame.mixer.music.load("audio/key.flac")
+**pygame.mixer.music.set_volume(0.5)
+**pygame.mixer.music.play(-1)
 **time.sleep(1)
 【荒原】正如其名，一片荒凉。
 一片墨绿色，光线昏暗，粘稠的绿色液体从旁边流过。

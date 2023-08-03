@@ -4,3 +4,4 @@ data["location"]=="hotel"
 False
 走出旅馆
 **data["location"]="plain"
+**pygame.mixer.music.stop()

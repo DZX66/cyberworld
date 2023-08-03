@@ -4,3 +4,4 @@ data["location"]=="plain" and 1 in data["passed_events"]
 False
 旅馆
 **data["location"]="hotel"
+**pygame.mixer.music.stop()

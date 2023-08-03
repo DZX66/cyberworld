@@ -62,6 +62,16 @@ def game():
         if data["days"] == 0:
             data = function.event(data,0)
         
+        #bgm
+        if not pygame.mixer.music.get_busy():
+            if data["location"]=="plain":
+                pygame.mixer.music.load("audio/key.flac")
+            elif data["location"]=="hotel":
+                pygame.mixer.music.load("audio/Embers.flac")
+            elif data["location"]=="pixel_tower":
+                pygame.mixer.music.load("audio/phigros_title.mp3")
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play(-1)
         
         #下一天
         data["days"] = data["days"]+1
@@ -151,7 +161,7 @@ def main():
         elif res==2:
             break
 
-""" if __name__=="__main__":
+if __name__=="__main__":
     if is_admin():
         main()
     else:
@@ -159,5 +169,5 @@ def main():
             input("你需要给予管理员权限才能继续（用于读写存档），按下enter给予管理员权限")
         ctypes.windll.shell32.ShellExecuteW(None,"runas",sys.executable,__file__,None,1)
 
- """
-main()
+
+#main()

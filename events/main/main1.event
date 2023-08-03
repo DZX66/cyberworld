@@ -60,6 +60,7 @@ False
 【长官】 我是这的管理员，他们叫我“长官”
 **select(["那我去旅馆了。"])
 /cls
+**pygame.mixer.music.stop()
 你到了旅馆。
 **data["location"]="hotel"
 旅馆不大，但还算温馨，光线并不亮，看起来不错。
