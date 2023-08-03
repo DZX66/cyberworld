@@ -77,6 +77,7 @@ def game():
                 pygame.mixer.music.set_volume(0.5)
                 pygame.mixer.music.play(-1)
             print("\n~~~第"+str(data["days"])+"天~~~\n")
+            print("hp：",data["hp"])
             print("字符：",data["golds"])
             print()
 
@@ -150,14 +151,23 @@ def main():
                 if res2 == 0:
                     create_saving()
                     game()
+                    pygame.mixer.music.load("audio/Sink.flac")
+                    pygame.mixer.music.set_volume(0.3)
+                    pygame.mixer.music.play(-1)
             else:
                 create_saving()
                 game()
+                pygame.mixer.music.load("audio/Sink.flac")
+                pygame.mixer.music.set_volume(0.3)
+                pygame.mixer.music.play(-1)
         elif res==1:
             global data
             data = load_saving()
             if data:
                 game()
+                pygame.mixer.music.load("audio/Sink.flac")
+                pygame.mixer.music.set_volume(0.3)
+                pygame.mixer.music.play(-1)
         elif res==2:
             break
 
