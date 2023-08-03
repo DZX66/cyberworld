@@ -62,20 +62,20 @@ def game():
         if data["days"] == 0:
             data = function.event(data,0)
         
-        #bgm
-        if not pygame.mixer.music.get_busy():
-            if data["location"]=="plain":
-                pygame.mixer.music.load("audio/key.flac")
-            elif data["location"]=="hotel":
-                pygame.mixer.music.load("audio/Embers.flac")
-            elif data["location"]=="pixel_tower":
-                pygame.mixer.music.load("audio/phigros_title.mp3")
-            pygame.mixer.music.set_volume(0.5)
-            pygame.mixer.music.play(-1)
         
         #下一天
         data["days"] = data["days"]+1
         while True:
+            #bgm
+            if not pygame.mixer.music.get_busy():
+                if data["location"]=="plain":
+                    pygame.mixer.music.load("audio/key.flac")
+                elif data["location"]=="hotel":
+                    pygame.mixer.music.load("audio/Embers.flac")
+                elif data["location"]=="pixel_tower":
+                    pygame.mixer.music.load("audio/phigros_title.mp3")
+                pygame.mixer.music.set_volume(0.5)
+                pygame.mixer.music.play(-1)
             print("\n~~~第"+str(data["days"])+"天~~~\n")
             print("字符：",data["golds"])
             print()

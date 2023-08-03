@@ -5,9 +5,9 @@
         "3": 1,
         "4": 1
     },
-    "days": 56,
+    "days": 2,
     "golds": 1000,
-    "hp": 85,
+    "hp": 93,
     "location": "pixel_tower",
     "passed_events": [
         0,
