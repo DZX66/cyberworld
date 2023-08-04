@@ -190,6 +190,7 @@ def battle(data:dict,enemy:int,is_escaped:bool):
             data["hp"]=player_hp
             return [data,-2]
         talk("")
+        turn += 1
 
 def library():
     os.system("cls")
