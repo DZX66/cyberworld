@@ -34,7 +34,7 @@ def items(id:int):
         1:["齿轮","铜质，略有锈斑，好像用了挺久的。"],
         2:["普通攻击","10-15伤害\n常见的delete函数，很容易被防御。"],
         3:["火球术","5-10伤害，流血+3\n-为啥火球能造成流血呢？-废话，燃烧不就是流血吗。"],
-        4:["治疗术","10-15回复，血量100及以上时只有80%的效果，200及以上只有50%的效果（四舍五入）\n不会有人用这个堆到1000点hp吧？"]
+        4:["治疗术","10-15回复，血量100及以上时只有80%的效果，200及以上只有50%的效果（向下取整）\n不会有人用这个堆到1000点hp吧？"]
     } 
     return item_info[id]
 def get_item(data:dict,id:int,number:int):
@@ -154,9 +154,9 @@ def battle(data:dict,enemy:int,is_escaped:bool):
             if player_hp < 100:
                 heal = heal
             elif player_hp < 200:
-                heal = round(0.8*heal)
+                heal = (0.8*heal) << 0
             else:
-                heal = round(0.5*heal)
+                heal = (0.5*heal) << 0
             print("你使用", data["skills"]['3'], "恢复了", heal, "点生命值！")
         elif choice == 4:
             talk("你选择逃跑！")
