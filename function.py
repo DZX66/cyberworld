@@ -6,6 +6,7 @@ import json
 import time
 import random
 import pygame
+import math
 
 def error(str:str):
     os.system("color 4")
@@ -94,12 +95,15 @@ def battle(data:dict,enemy:int,is_escaped:bool):
     result:0：胜利 -1：逃跑 -2：失败'''
     monster_hp = enemies(enemy)[2]
     player_hp = data["hp"]
+    monster_hp_max = monster_hp
+    player_hp_max = player_hp
     monster_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
     player_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
     turn = 1
     while True:
         print("\n~~~第 "+str(turn)+" 轮 战斗开始~~~\n")
-        print(enemies(enemy)[1]+" 生命值 =", monster_hp)
+        print(enemies(enemy)[1]+" 生命值 ：", monster_hp,"/",monster_hp_max)
+        print("\033[0;32m+"*math.ceil(monster_hp/monster_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(monster_hp/monster_hp_max*10),10)+"\033[0m")
         if monster_effects["blood_losing"]>0:
             print("流血",monster_effects["blood_losing"])
         if monster_effects["healing"]>0:
@@ -108,7 +112,8 @@ def battle(data:dict,enemy:int,is_escaped:bool):
             print("力量",monster_effects["powered"])
         if monster_effects["weak"]>0:
             print("虚弱",monster_effects["weak"])
-        print("你的生命值 =", player_hp)
+        print("你的生命值 ：", player_hp,"/",player_hp_max)
+        print("\033[0;32m+"*math.ceil(player_hp/player_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(player_hp/player_hp_max*10),10)+"\033[0m")
         if player_effects["blood_losing"]>0:
             print("流血",player_effects["blood_losing"])
         if player_effects["healing"]>0:
@@ -154,9 +159,10 @@ def battle(data:dict,enemy:int,is_escaped:bool):
             if player_hp < 100:
                 heal = heal
             elif player_hp < 200:
-                heal = (0.8*heal) << 0
+                heal = math.floor(0.8*heal)
             else:
-                heal = (0.5*heal) << 0
+                heal = math.floor(0.5*heal)
+            player_hp += heal
             print("你使用", data["skills"]['3'], "恢复了", heal, "点生命值！")
         elif choice == 4:
             talk("你选择逃跑！")
