@@ -205,13 +205,8 @@ def library():
     os.system("cls")
     time.sleep(1)
     talk("这是什么？图书馆？看一下！")
-    while True:
-        res = select(["不看了","赛博世界","荒原","城镇","行政区","核心","意识体","中枢"])
-        if res==0:
-            talk("哈？")
-            break
-        elif res==1:
-            talk("赛博世界（cyberworld）",0)
+    os.system("start library/index.html")
+    talk("")
 def event(data:dict,id:int):
     ''''''
     f=open("events/index.json","r",encoding="utf-8")
