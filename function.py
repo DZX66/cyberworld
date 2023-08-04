@@ -96,8 +96,9 @@ def battle(data:dict,enemy:int,is_escaped:bool):
     player_hp = data["hp"]
     monster_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
     player_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
+    turn = 1
     while True:
-        print("\n~~~战斗开始~~~\n")
+        print("\n~~~第 "+str(turn)+" 轮 战斗开始~~~\n")
         print(enemies(enemy)[1]+" 生命值 =", monster_hp)
         if monster_effects["blood_losing"]>0:
             print("流血",monster_effects["blood_losing"])
