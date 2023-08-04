@@ -100,6 +100,9 @@ def battle(data:dict,enemy:int,is_escaped:bool):
     monster_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
     player_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
     turn = 1
+    pygame.mixer.music.load("audio/Rude_Buster.flac")
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play(-1)
     while True:
         print("\n~~~第 "+str(turn)+" 轮 战斗开始~~~\n")
         print(enemies(enemy)[1]+" 生命值 ：", monster_hp,"/",monster_hp_max)

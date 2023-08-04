@@ -29,6 +29,9 @@ False
 反而是，局域网的自动保卫系统发动了攻击。
 **res = battle(data,0,False)
 **data = res[0]
+**pygame.mixer.music.load("audio/key.flac")
+**pygame.mixer.music.set_volume(0.5)
+**pygame.mixer.music.play(-1)
 **if res[1]==-2:
     这都能死？
     这是第一次，所以先帮你回个血吧ヽ(✿ﾟ▽ﾟ)ノ
