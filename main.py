@@ -1,5 +1,6 @@
 # =-= coding:utf-8 =-=
 from __future__ import print_function
+from copy import deepcopy
 import time
 import function
 import os
@@ -8,6 +9,8 @@ import texts
 import pygame
 import ctypes
 import sys
+import traceback
+
 
 def is_admin():
     try:
@@ -52,7 +55,7 @@ def save_saving(data):
 
 
 def game():
-    global data
+    global data,DEBUG
     os.system("cls")
     pygame.mixer.music.fadeout(500)
     time.sleep(0.5)
@@ -86,6 +89,8 @@ def game():
                 action[-1] = "下一天"
             if True:
                 action[-2] = "背包"
+            if DEBUG:
+                action[-3] = "DEBUG"
             f=open("events/index.json","r",encoding="utf-8")
             events = json.load(f)
             f.close()
@@ -105,6 +110,26 @@ def game():
                 break
             elif event == -2:
                 function.bag(data)
+            elif event == -3:
+                res = function.select(["退出","事件","战斗"],"DEBUG界面")
+                if res==1:
+                    id = int(input("id:"))
+                    is_saved = function.select(["否","是"],"是否保存data？")
+                    old_data = deepcopy(data)
+                    function.event(data,id)
+                    if is_saved==0:
+                        data = old_data
+                elif res==2:
+                    id = int(input("id:"))
+                    is_escaped = function.select(["否","是"],"可逃跑？")
+                    is_saved = function.select(["否","是"],"是否保存data？")
+                    print("id:",id,"is_escaped:",is_escaped,"is_saved:",is_saved)
+                    old_data = deepcopy(data)
+                    r = function.battle(data,id,bool(is_escaped))
+                    if is_saved==0:
+                        data = old_data
+                    print("输出：",r[1])
+                    pygame.mixer.music.stop()
             else:
                 data = function.event(data,event)
 
@@ -117,6 +142,9 @@ def game():
         elif res==2:
             save_saving(data)
             break
+    pygame.mixer.music.load("audio/Sink.flac")
+    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.play(-1)
 
 
 
@@ -151,29 +179,25 @@ def main():
                 if res2 == 0:
                     create_saving()
                     game()
-                    pygame.mixer.music.load("audio/Sink.flac")
-                    pygame.mixer.music.set_volume(0.3)
-                    pygame.mixer.music.play(-1)
             else:
                 create_saving()
                 game()
-                pygame.mixer.music.load("audio/Sink.flac")
-                pygame.mixer.music.set_volume(0.3)
-                pygame.mixer.music.play(-1)
         elif res==1:
             global data
             data = load_saving()
             if data:
                 game()
-                pygame.mixer.music.load("audio/Sink.flac")
-                pygame.mixer.music.set_volume(0.3)
-                pygame.mixer.music.play(-1)
         elif res==2:
             break
-
+DEBUG = True
 if __name__=="__main__":
     if is_admin():
-        main()
+        try:
+            main()
+        except Exception as e:
+            print("发现了一个错误！")
+            traceback.print_exc()
+            function.error("请尝试反馈问题！")
     else:
         if not os.path.exists("save.save"):
             input("你需要给予管理员权限才能继续（用于读写存档），按下enter给予管理员权限")
