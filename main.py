@@ -57,6 +57,8 @@ def save_saving(data):
 def game():
     global data,DEBUG
     os.system("cls")
+    sound = pygame.mixer.Sound("audio/start.mp3")
+    sound.play()
     pygame.mixer.music.fadeout(500)
     time.sleep(0.5)
     while True:

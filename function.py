@@ -80,6 +80,8 @@ def talk(text:str,wait=True):
         get = b'q'
         while not(get==b"\r"):
             get = msvcrt.getch()
+        sound = pygame.mixer.Sound("audio/continue.mp3")
+        sound.play()
         print("\033[u\033[K")
     else:
         print(text)
