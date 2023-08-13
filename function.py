@@ -52,24 +52,31 @@ def bag(data:dict):
         return -1
     get = 'z'
     focus = 0
+    flush = True
     while not(get==b"q"):
-        os.system("cls")
-        n = 0
-        print("\033[1;30m")
-        for i in data["bag"]:
-            if n == focus:
-                print("\033[1;37m>"+items(int(i))[0]+" * "+str(data['bag'][i])+" \033[0;37m#"+str(i)+" "+items(int(i))[1]+"\033[1;30m")
-            else:
-                print(items(int(i))[0]+" * "+str(data['bag'][i]))
-            n+=1
-        print("\033[0mQ-退出 W-上一个 S-下一个 Enter-使用")
+        if flush:
+            os.system("cls")
+            n = 0
+            print("\033[1;30m")
+            for i in data["bag"]:
+                if n == focus:
+                    print("\033[1;37m>"+items(int(i))[0]+" * "+str(data['bag'][i])+" \033[0;37m#"+str(i)+" "+items(int(i))[1]+"\033[1;30m")
+                else:
+                    print(items(int(i))[0]+" * "+str(data['bag'][i]))
+                n+=1
+            print("\033[0mQ-退出 W-上一个 S-下一个 Enter-使用")
         get = msvcrt.getch()
+        flush = True
         if get==b"s":
             if focus<len(data["bag"])-1:
                 focus += 1
+            else:
+                flush = False
         elif get==b"w":
             if focus>0:
                 focus -= 1
+            else:
+                flush = False
         elif get==b"\r":
             talk("used "+str(list(data["bag"])[focus]))
     return -1
