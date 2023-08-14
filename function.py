@@ -158,14 +158,20 @@ def battle(data:dict,enemy:int,is_escaped:bool):
 
         if choice == 1:
             damage = random.randint(10, 15)
-            monster_hp -= damage
             print("你使用", data["skills"]['1'], "对敌方造成了", damage, "点伤害！")
+            print("\033[s"+str(monster_hp)+"/"+str(monster_hp_max)+"    "+"\033[0;32m+"*math.ceil(monster_hp/monster_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(monster_hp/monster_hp_max*10),10)+"\033[0m",end="",flush=True)
+            time.sleep(1)
+            monster_hp-=damage
+            print("\033[u\033[K"+str(monster_hp)+"/"+str(monster_hp_max)+"    "+"\033[0;32m+"*math.ceil(monster_hp/monster_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(monster_hp/monster_hp_max*10),10)+"\033[0m",flush=True)
         elif choice == 2:
             damage = random.randint(5, 10)
-            monster_hp -= damage
             print("你使用", data["skills"]['2'], "对敌方造成了", damage, "点伤害！")
+            print("\033[s"+str(monster_hp)+"/"+str(monster_hp_max)+"    "+"\033[0;32m+"*math.ceil(monster_hp/monster_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(monster_hp/monster_hp_max*10),10)+"\033[0m",end="",flush=True)
+            time.sleep(1)
+            monster_hp-=damage
+            print("\033[u\033[K"+str(monster_hp)+"/"+str(monster_hp_max)+"    "+"\033[0;32m+"*math.ceil(monster_hp/monster_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(monster_hp/monster_hp_max*10),10)+"\033[0m")
             monster_effects["blood_losing"] += 3
-            print(data["skills"]['2'],"的效果：敌方流血+3")
+            print(data["skills"]['2'],"的效果：敌方流血+3",flush=True)
         elif choice == 3:
             heal = random.randint(10, 15)
             if player_hp < 100:
@@ -174,33 +180,45 @@ def battle(data:dict,enemy:int,is_escaped:bool):
                 heal = math.floor(0.8*heal)
             else:
                 heal = math.floor(0.5*heal)
-            player_hp += heal
             print("你使用", data["skills"]['3'], "恢复了", heal, "点生命值！")
+            print("\033[s"+str(player_hp)+"/"+str(player_hp_max)+"    "+"\033[0;32m+"*math.ceil(player_hp/player_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(player_hp/player_hp_max*10),10)+"\033[0m",end="",flush=True)
+            time.sleep(1)
+            player_hp+=heal
+            print("\033[u\033[K"+str(player_hp)+"/"+str(player_hp_max)+"    "+"\033[0;32m+"*math.ceil(player_hp/player_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(player_hp/player_hp_max*10),10)+"\033[0m",flush=True)
         elif choice == 4:
             talk("你选择逃跑！")
             data["hp"]=player_hp
             return [data,-1]
         
         if monster_effects["blood_losing"]>0:
-            monster_hp -= 3*monster_effects["blood_losing"]
             print("敌方受到流血伤害",3*monster_effects["blood_losing"],"点！")
+            print("\033[s"+str(monster_hp)+"/"+str(monster_hp_max)+"    "+"\033[0;32m+"*math.ceil(monster_hp/monster_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(monster_hp/monster_hp_max*10),10)+"\033[0m",end="",flush=True)
+            time.sleep(1)
+            monster_hp -= 3*monster_effects["blood_losing"]
+            print("\033[u\033[K"+str(monster_hp)+"/"+str(monster_hp_max)+"    "+"\033[0;32m+"*math.ceil(monster_hp/monster_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(monster_hp/monster_hp_max*10),10)+"\033[0m",flush=True)
             monster_effects["blood_losing"] -= 1
 
         if monster_hp <= 0:
             talk("你胜利了！")
             data["hp"]=player_hp
             return [data,0]
-        
+        time.sleep(1)
         monster_choice = random.randint(1, len(enemies(enemy)[3]))
         monster_choice = enemies(enemy)[3][monster_choice-1]
         if monster_choice[1] == "attack":
             damage = random.randint(monster_choice[2], monster_choice[3])
-            player_hp -= damage
             print("敌方用",monster_choice[0],"对你造成了", damage, "点伤害！")
+            print("\033[s"+str(player_hp)+"/"+str(player_hp_max)+"    "+"\033[0;32m+"*math.ceil(player_hp/player_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(player_hp/player_hp_max*10),10)+"\033[0m",end="",flush=True)
+            time.sleep(1)
+            player_hp -= damage
+            print("\033[u\033[K"+str(player_hp)+"/"+str(player_hp_max)+"    "+"\033[0;32m+"*math.ceil(player_hp/player_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(player_hp/player_hp_max*10),10)+"\033[0m")
         
         if player_effects["blood_losing"]>0:
-            player_hp -= 3*player_effects["blood_losing"]
             print("你受到流血伤害",3*player_effects["blood_losing"],"点！")
+            print("\033[s"+str(player_hp)+"/"+str(player_hp_max)+"    "+"\033[0;32m+"*math.ceil(player_hp/player_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(player_hp/player_hp_max*10),10)+"\033[0m",end="",flush=True)
+            time.sleep(1)
+            player_hp -= 3*player_effects["blood_losing"]
+            print("\033[u\033[K"+str(player_hp)+"/"+str(player_hp_max)+"    "+"\033[0;32m+"*math.ceil(player_hp/player_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(player_hp/player_hp_max*10),10)+"\033[0m")
             player_effects["blood_losing"] -= 1
 
         if player_hp <= 0:
