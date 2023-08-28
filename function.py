@@ -112,7 +112,7 @@ def battle(data:dict,enemy:int,is_escaped:bool):
     monster_hp = enemies(enemy)[2]
     player_hp = data["hp"]
     monster_hp_max = monster_hp
-    player_hp_max = player_hp
+    player_hp_max = data["max_hp"]
     monster_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
     player_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
     turn = 1
@@ -185,7 +185,10 @@ def battle(data:dict,enemy:int,is_escaped:bool):
             player_hp=decrease_hp(-heal,player_hp,player_hp_max)
         elif choice == '逃跑':
             talk("你选择逃跑！")
-            data["hp"]=player_hp
+            if player_hp>player_hp_max:
+                data["hp"]=player_hp_max
+            else:
+                data["hp"]=player_hp
             return [data,-1]
         
         if monster_effects["blood_losing"]>0:
@@ -195,7 +198,10 @@ def battle(data:dict,enemy:int,is_escaped:bool):
 
         if monster_hp <= 0:
             talk("你胜利了！")
-            data["hp"]=player_hp
+            if player_hp>player_hp_max:
+                data["hp"]=player_hp_max
+            else:
+                data["hp"]=player_hp
             return [data,0]
         time.sleep(1)
         monster_choice = random.randint(1, len(enemies(enemy)[3]))
@@ -209,6 +215,11 @@ def battle(data:dict,enemy:int,is_escaped:bool):
             print("你受到流血伤害",3*player_effects["blood_losing"],"点！")
             player_hp=decrease_hp(damage,player_hp,player_hp_max)
             player_effects["blood_losing"] -= 1
+
+        #溢出血量稀释
+        if player_hp>player_hp_max:
+            print("你的血量稀释",math.floor((player_hp-player_hp_max)/4),"点！")
+            player_hp=decrease_hp(math.floor((player_hp-player_hp_max)/4),player_hp,player_hp_max)
 
         if player_hp <= 0:
             talk("你输了......")

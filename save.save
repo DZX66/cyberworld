@@ -9,6 +9,7 @@
     "golds": 1000,
     "hp": 100,
     "location": "plain",
+    "max_hp": 100,
     "passed_events": [
         0
     ],
@@ -17,5 +18,6 @@
         "1": "\u666e\u901a\u653b\u51fb",
         "2": "\u706b\u7403\u672f",
         "3": "\u6cbb\u7597\u672f"
-    }
+    },
+    "time": 0
 }
