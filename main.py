@@ -29,7 +29,8 @@ def create_saving():
     "hp":100,
     "max_hp":100,
     "time":360,
-    "skills": {'1': "普通攻击",'2': "火球术",'3': "治疗术"}
+    "skills": {'1': "普通攻击",'2': "火球术",'3': "治疗术"},
+    "save_time":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
 }
     datar = json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
     f = open("save.save","w",encoding="utf-8")
@@ -47,6 +48,7 @@ def load_saving():
         return None
     
 def save_saving(data):
+    data["save_time"] = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     datar = json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
     try:
         with open("save.save", "w", encoding="utf-8") as f:
@@ -221,7 +223,12 @@ def main():
         time.sleep(0.5)
         print("运行路径：",os.getcwd())
         print("欢迎回来，",os.getlogin())
-        res = function.select(["新存档","读取存档","退出"])
+        if os.path.exists("save.save"):
+            f = open("save.save", "r", encoding="utf-8")
+            save = json.load(f)
+            f.close()
+            print("当前存档：第",save["days"],"天",texts.location(save["location"]),"hp:",save["hp"],"/",save["max_hp"],save["golds"],"字符",save["save_time"])
+        res = function.select(["新存档","读取存档","退出"] if os.path.exists("save.save") else ["新存档","退出"])
         if res==0:
             if os.path.exists("save.save"):
                 res2 = function.select(["是","否"],"确定要新建存档吗？这会覆盖原存档。")
@@ -231,12 +238,12 @@ def main():
             else:
                 create_saving()
                 game()
-        elif res==1:
+        elif res==1 and os.path.exists("save.save"):
             global data
             data = load_saving()
             if data:
                 game()
-        elif res==2:
+        elif (res==2 and os.path.exists("save.save")) or (res==1 and (not os.path.exists("save.save"))):
             break
 DEBUG = True
 if __name__=="__main__":

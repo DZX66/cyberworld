@@ -62,3 +62,7 @@ def description(location:str):
         '我们的口号是？咕咕咕！']
 
         return tips[random.randint(0,len(tips)-1)]
+def location(name):
+    '''根据代码内标识返回译名'''
+    names = {"":"？？？","plain":"荒原","hotel":"旅馆","pixel_tower":"像素塔"}
+    return names[name]
