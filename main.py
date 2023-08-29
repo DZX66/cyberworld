@@ -85,6 +85,8 @@ def game():
             print("hp：",data["hp"],"/",data["max_hp"])
             print("字符：",data["golds"])
             print("时间: ",data["time"]//60,":",str(data["time"]%60) if data["time"]%60>=10 else "0"+str(data["time"]%60),"夜深了......" if data["time"]>=1380 or data["time"]<=240 else "")
+            if DEBUG:
+                print(data)
             print()
 
             action = {}
@@ -138,6 +140,9 @@ def game():
             elif event == -4:
                 data["time"] = 1800
             else:
+                if DEBUG:
+                    print("going to play event...")
+                    function.talk("event_id:",event)
                 data = function.event(data,event)
             if data["time"]>=1440:
                 data["days"] += data["time"]//1440
