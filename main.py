@@ -170,8 +170,37 @@ def main():
     pygame.mixer.music.load("audio/Introduction.mp3")
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play()
-    time.sleep(3.9)
-    print("准备...")
+    os.system("")
+    print("事件加载中...\033[s0/0",end="",flush=True)
+    events = {}
+    path = "events"
+    progress=0
+    progress_max=str(len(os.listdir(path)))
+    for file in os.listdir(path):
+        progress+=1
+        print("\033[u\033[K"+str(progress)+"/"+progress_max,end="",flush=True)
+        file_path = os.path.join(path, file)
+        if os.path.isfile(file_path):
+            if not ".event" in file_path:
+                continue
+            f = open(file_path,"r",encoding="utf-8")
+            res = f.readlines()
+            f.close()
+            events[int(res[0][:-1])]=[int(res[0][:-1]),file_path,res[1][:-1],res[2][:-1],bool(eval(res[3][:-1])),res[4][:-1]]
+        else:
+            for file1 in os.listdir(os.path.join(file_path)):
+                file_path1 = os.path.join(file_path,file1)
+                if os.path.isfile(file_path1):
+                    if not ".event" in file_path1:
+                        continue
+                    f = open(file_path1,"r",encoding="utf-8")
+                    res = f.readlines()
+                    f.close()
+                    events[int(res[0][:-1])]=[int(res[0][:-1]),file_path1,res[1][:-1],res[2][:-1],bool(eval(res[3][:-1])),res[4][:-1]]
+    f = open("events/index.json","w",encoding="utf-8")
+    datar = json.dumps(events, sort_keys=True, indent=4, separators=(',', ': '))
+    f.write(datar)
+    f.close()
     while pygame.mixer.music.get_busy():
         pass
     pygame.mixer.music.load("audio/Sink.flac")
