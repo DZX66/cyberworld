@@ -1,6 +1,6 @@
 name: "bug反馈"
 description: "程序运行不符合预期"
-labels: [· bug, 待处理]
+labels: [bug, 待处理]
 body:
 - type: checkboxes
   id: "yml-1"
