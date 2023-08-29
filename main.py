@@ -9,7 +9,7 @@ import texts
 import pygame
 import ctypes
 import sys
-from traceback import print_exc
+import traceback
 
 
 def is_admin():
@@ -252,7 +252,10 @@ if __name__=="__main__":
             main()
         except Exception as e:
             print("发现了一个错误！")
-            print_exc()
+            traceback.print_exc()
+            f = open("crash.txt","w",encoding="utf-8")
+            f.write(traceback.format_exc())
+            f.close()
             function.error("请尝试反馈问题！")
     else:
         if not os.path.exists("save.save"):
