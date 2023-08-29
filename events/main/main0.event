@@ -1,8 +1,10 @@
 0
 一个开始
-0 not in data["passed_events"]
+0 not in data["passed_events"] and data["days"] == 0
 True
 
+main
+mandatory
 /cls
 **time.sleep(1)
 当出现【▼】这个符号时，按下enter键来继续。

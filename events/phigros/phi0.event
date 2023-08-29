@@ -3,6 +3,8 @@ phigros线-开始
 1 in data["passed_events"] and 100 not in data["passed_events"] and data["location"]=="plain"
 False
 【支线】远方有一座塔，若隐若现
+side
+optional
 远方有一座塔，若隐若现。
 不知道为什么，这座塔根本看不清楚，特别糊。
 **select(["这是什么......","不会是......"])

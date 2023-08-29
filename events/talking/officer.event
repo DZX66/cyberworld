@@ -3,6 +3,8 @@
 1 in data["passed_events"] and 2 not in data["passed_events"] and data["location"]=="hotel" and data["time"] >=1200
 False
 长官喝着酒，面色通红。
+daily
+optional
 **select(["你们为什么要建这个局域网？"])
 【长官】 你不知道吗，外面是乱糟糟的一片啊。
 **select(["是吗？"])

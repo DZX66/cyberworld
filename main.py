@@ -9,7 +9,7 @@ import texts
 import pygame
 import ctypes
 import sys
-import traceback
+from traceback import print_exc
 
 
 def is_admin():
@@ -66,8 +66,12 @@ def game():
     while True:
         os.system("cls")
         #事件
-        if data["days"] == 0:
-            data = function.event(data,0)
+        f=open("events/index.json","r",encoding="utf-8")
+        events = json.load(f)
+        f.close()
+        for i in events:
+            if eval(events[i][3]) and events[i][7]=="mandatory":
+                function.event(data,events[i][0])
         
         while True:
             #bgm
@@ -102,7 +106,7 @@ def game():
             events = json.load(f)
             f.close()
             for i in events:
-                if eval(events[i][3]):
+                if eval(events[i][3]) and events[i][7]=="optional":
                     action[int(i)] = events[i][5]
             selection = []
             for i in action:
@@ -186,7 +190,7 @@ def main():
             f = open(file_path,"r",encoding="utf-8")
             res = f.readlines()
             f.close()
-            events[int(res[0][:-1])]=[int(res[0][:-1]),file_path,res[1][:-1],res[2][:-1],bool(eval(res[3][:-1])),res[4][:-1]]
+            events[int(res[0][:-1])]=[int(res[0][:-1]),file_path1,res[1][:-1],res[2][:-1],bool(eval(res[3][:-1])),res[4][:-1],res[5][:-1],res[6][:-1]]
         else:
             for file1 in os.listdir(os.path.join(file_path)):
                 file_path1 = os.path.join(file_path,file1)
@@ -196,7 +200,7 @@ def main():
                     f = open(file_path1,"r",encoding="utf-8")
                     res = f.readlines()
                     f.close()
-                    events[int(res[0][:-1])]=[int(res[0][:-1]),file_path1,res[1][:-1],res[2][:-1],bool(eval(res[3][:-1])),res[4][:-1]]
+                    events[int(res[0][:-1])]=[int(res[0][:-1]),file_path1,res[1][:-1],res[2][:-1],bool(eval(res[3][:-1])),res[4][:-1],res[5][:-1],res[6][:-1]]
     f = open("events/index.json","w",encoding="utf-8")
     datar = json.dumps(events, sort_keys=True, indent=4, separators=(',', ': '))
     f.write(datar)
@@ -241,7 +245,7 @@ if __name__=="__main__":
             main()
         except Exception as e:
             print("发现了一个错误！")
-            traceback.print_exc()
+            print_exc()
             function.error("请尝试反馈问题！")
     else:
         if not os.path.exists("save.save"):

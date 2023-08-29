@@ -3,6 +3,8 @@
 0 in data["passed_events"] and 1 not in data["passed_events"] and data["location"]=="plain" and data["time"] >=360 and data["time"] <= 960
 False
 【主线】你发现了一个巨大的泡泡，蓝色的
+main
+optional
 -教程-自由行动
 -每天，你可以自由行动。
 -除了下一天，打开背包，移动这些行动外，会有许多事件。
