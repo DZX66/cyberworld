@@ -11,7 +11,7 @@
         1,
         "events\\main\\main1.event",
         "\u8fdb\u5165\u5c40\u57df\u7f51",
-        "0 in data[\"passed_events\"] and 1 not in data[\"passed_events\"] and data[\"location\"]==\"plain\"",
+        "0 in data[\"passed_events\"] and 1 not in data[\"passed_events\"] and data[\"location\"]==\"plain\" and data[\"time\"] >=360 and data[\"time\"] <= 960",
         false,
         "\u3010\u4e3b\u7ebf\u3011\u4f60\u53d1\u73b0\u4e86\u4e00\u4e2a\u5de8\u5927\u7684\u6ce1\u6ce1\uff0c\u84dd\u8272\u7684"
     ],
@@ -19,7 +19,7 @@
         2,
         "events\\talking\\officer.event",
         "\u4e0e\u957f\u5b98\u7684\u5bf9\u8bdd",
-        "1 in data[\"passed_events\"] and 2 not in data[\"passed_events\"] and data[\"location\"]==\"hotel\"",
+        "1 in data[\"passed_events\"] and 2 not in data[\"passed_events\"] and data[\"location\"]==\"hotel\" and data[\"time\"] >=1200",
         false,
         "\u957f\u5b98\u559d\u7740\u9152\uff0c\u9762\u8272\u901a\u7ea2\u3002"
     ],

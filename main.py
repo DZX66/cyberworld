@@ -28,7 +28,7 @@ def create_saving():
     "location": "",
     "hp":100,
     "max_hp":100,
-    "time":0,
+    "time":360,
     "skills": {'1': "普通攻击",'2': "火球术",'3': "治疗术"}
 }
     datar = json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
@@ -69,9 +69,6 @@ def game():
         if data["days"] == 0:
             data = function.event(data,0)
         
-        
-        #下一天
-        data["days"] = data["days"]+1
         while True:
             #bgm
             if not pygame.mixer.music.get_busy():
@@ -83,14 +80,18 @@ def game():
                     pygame.mixer.music.load("audio/phigros_title.mp3")
                 pygame.mixer.music.set_volume(0.5)
                 pygame.mixer.music.play(-1)
+            #信息
             print("\n~~~第"+str(data["days"])+"天~~~\n")
             print("hp：",data["hp"],"/",data["max_hp"])
             print("字符：",data["golds"])
+            print("时间: ",data["time"]//60,":",str(data["time"]%60) if data["time"]%60>=10 else "0"+str(data["time"]%60),"夜深了......" if data["time"]>=1380 or data["time"]<=240 else "")
             print()
 
             action = {}
             if True:
-                action[-1] = "下一天"
+                action[-1] = "等待半小时"
+            if data["time"]>=1200:
+                action[-4] = "睡觉"
             if True:
                 action[-2] = "背包"
             if DEBUG:
@@ -111,7 +112,7 @@ def game():
             res = function.select(out,texts.description(data["location"]))
             event = selection[res][0]
             if event == -1:
-                break
+                data["time"]+=30
             elif event == -2:
                 function.bag(data)
             elif event == -3:
@@ -134,8 +135,14 @@ def game():
                         data = old_data
                     print("输出：",r[1])
                     pygame.mixer.music.stop()
+            elif event == -4:
+                data["time"] = 1800
             else:
                 data = function.event(data,event)
+            if data["time"]>=1440:
+                data["days"] += data["time"]//1440
+                data["time"] = data["time"]%1440
+                break
 
         #存档
         res = function.select(["存档并进入下一天","不保存并退出","保存并退出"],"你要对自己的选择负责......")

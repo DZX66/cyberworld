@@ -1,6 +1,6 @@
 1
 进入局域网
-0 in data["passed_events"] and 1 not in data["passed_events"] and data["location"]=="plain"
+0 in data["passed_events"] and 1 not in data["passed_events"] and data["location"]=="plain" and data["time"] >=360 and data["time"] <= 960
 False
 【主线】你发现了一个巨大的泡泡，蓝色的
 -教程-自由行动
@@ -72,3 +72,4 @@ False
 【玛莉特】 我有点事，你先在这转会吧。
 **select(["你怎么了？"])
 你正想留住她，她已经离开了。
+**data["time"]+= 120

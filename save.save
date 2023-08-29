@@ -5,13 +5,16 @@
         "3": 1,
         "4": 1
     },
-    "days": 1,
+    "days": 4,
     "golds": 1000,
-    "hp": 100,
-    "location": "plain",
+    "hp": 94,
+    "location": "pixel_tower",
     "max_hp": 100,
     "passed_events": [
-        0
+        0,
+        1,
+        3,
+        100
     ],
     "san": 80,
     "skills": {

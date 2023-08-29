@@ -1,6 +1,6 @@
 2
 与长官的对话
-1 in data["passed_events"] and 2 not in data["passed_events"] and data["location"]=="hotel"
+1 in data["passed_events"] and 2 not in data["passed_events"] and data["location"]=="hotel" and data["time"] >=1200
 False
 长官喝着酒，面色通红。
 **select(["你们为什么要建这个局域网？"])
