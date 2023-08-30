@@ -7,12 +7,15 @@ import time
 import random
 import pygame
 import math
+import texts
+from copy import deepcopy
 
 def error(str:str):
     os.system("color 4")
     input(str)
     sys.exit()
-def select(selection:list,introduction=""):
+def select(selection:list,introduction="",special_keys={}):
+    '''选择，返回selection的选择的元素索引或special_keys中的键'''
     if len(selection)>10:
         error("[error] 选择项超过十")
     print("="*20)
@@ -25,10 +28,17 @@ def select(selection:list,introduction=""):
         w.append(bytes(str(q),encoding="utf-8"))
         q += 1
     print("="*20)
-    get = b'q'
+    for i in special_keys:
+        w.append(bytes(i,encoding="utf-8"))
+        print(texts.keys(i)+"-"+special_keys[i],end=" ")
+    print()
+    get = b''
     while not (get in w):
         get = msvcrt.getch()
-    return int(get)
+    try:
+        return int(get)
+    except ValueError:
+        return str(get,encoding="utf-8")
 def items(id:int):
     item_info = {
         0:["【荒原】的权限","荒原访客的证明，是玛莉特送给你的礼物。"],
@@ -311,3 +321,30 @@ def event(data:dict,id:int):
     exec(code)
     data["passed_events"].append(int(id))
     return data
+def setting(data):
+    '''设置'''
+    keys = deepcopy(data['keys'])
+    while True:
+        used_keys=[]
+        for i in keys:
+            used_keys.append(keys[i])
+        selection = ["退出","恢复默认设置","等待半小时："+texts.keys(keys["wait"]),"睡觉："+texts.keys(keys["sleep"]),"背包："+texts.keys(keys["bag"]),"DEBUG："+texts.keys(keys["debug"]),"设置："+texts.keys(keys["setting"])]
+        res = select(selection,"键位设置")
+        if res==0:
+            break
+        elif res==1:
+            keys = {"wait":"p","sleep":"s","bag":"b","debug":"d","setting":"\x1b"}
+        else:
+            ekey = {2:"wait",3:"sleep",4:"debug",5:"setting"}[res]
+            print("输入一个新键位：",end="",flush=True)
+            new = msvcrt.getch()
+            if new ==b"\xe0":
+                print("无效的键位")
+                continue
+            new = str(new,encoding="utf-8")
+            print(texts.keys(new))
+            if new in used_keys and new!=keys[ekey]:
+                print("键位冲突！")
+            else:
+                keys[ekey]=new
+    data["keys"] = keys

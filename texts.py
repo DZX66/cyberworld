@@ -66,3 +66,25 @@ def location(name):
     '''根据代码内标识返回译名'''
     names = {"":"？？？","plain":"荒原","hotel":"旅馆","pixel_tower":"像素塔"}
     return names[name]
+def keys(name:bytes):
+    '''根据bytes返回键位名称，可输入bytes或str'''
+    if type(name)==bytes:
+        name=str(name,encoding="utf-8")
+    elif type(name)==str:
+        pass
+    else:
+        raise TypeError
+    if name=="\x1b":
+        return "ESC"
+    elif name=='\r':
+        return "Enter"
+    elif name=='`':
+        return "~"
+    elif name=='\x08':
+        return "Backspace"
+    elif name=='\xe0':
+        return ""
+    elif name==" ":
+        return "Space"
+    else:
+        return name.upper()

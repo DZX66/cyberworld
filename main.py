@@ -30,7 +30,8 @@ def create_saving():
     "max_hp":100,
     "time":360,
     "skills": {'1': "普通攻击",'2': "火球术",'3': "治疗术"},
-    "save_time":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
+    "save_time":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime()),
+    "keys":{"wait":"p","sleep":"s","bag":"b","debug":"d","setting":"\x1b"}
 }
     datar = json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
     f = open("save.save","w",encoding="utf-8")
@@ -96,14 +97,7 @@ def game():
             print()
 
             action = {}
-            if True:
-                action[-1] = "等待半小时"
-            if data["time"]>=1200:
-                action[-4] = "睡觉"
-            if True:
-                action[-2] = "背包"
-            if DEBUG:
-                action[-3] = "DEBUG"
+            special_action = {data["keys"]["wait"]:"等待半小时",data["keys"]["sleep"]:"睡觉",data["keys"]["bag"]:"背包",data["keys"]["debug"]:("DEBUG" if DEBUG else "DEBUG(不可用)"),data["keys"]["setting"]:"设置"}
             f=open("events/index.json","r",encoding="utf-8")
             events = json.load(f)
             f.close()
@@ -117,13 +111,16 @@ def game():
             for i in selection:
                 out.append(i[1])
 
-            res = function.select(out,texts.description(data["location"]))
-            event = selection[res][0]
-            if event == -1:
+            res = function.select(out,texts.description(data["location"]),special_keys=special_action)
+            if type(res)==int:
+                event = selection[res][0]
+            else:
+                event = res
+            if event == data["keys"]["wait"]:
                 data["time"]+=30
-            elif event == -2:
+            elif event == data["keys"]["bag"]:
                 function.bag(data)
-            elif event == -3:
+            elif event == data["keys"]["debug"] and DEBUG:
                 res = function.select(["退出","事件","战斗"],"DEBUG界面")
                 if res==1:
                     id = int(input("id:"))
@@ -143,8 +140,10 @@ def game():
                         data = old_data
                     print("输出：",r[1])
                     pygame.mixer.music.stop()
-            elif event == -4:
+            elif event == data["keys"]["sleep"]:
                 data["time"] = 1800
+            elif event == data["keys"]["setting"]:
+                function.setting(data)
             else:
                 if DEBUG:
                     print("going to play event...")
