@@ -245,7 +245,7 @@ def event(data:dict,id:int):
     res = 0
     if eval(w[3][:-1]):
         res = select(["否","是"],"要跳过吗？")
-    w = w[5:]
+    w = w[7:]
     code = ""
     if res:
         #跳过

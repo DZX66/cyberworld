@@ -148,7 +148,7 @@ def game():
             else:
                 if DEBUG:
                     print("going to play event...")
-                    function.talk("event_id:",event)
+                    function.talk("event_id:"+str(event))
                 data = function.event(data,event)
             if data["time"]>=1440:
                 data["days"] += data["time"]//1440
