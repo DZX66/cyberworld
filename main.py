@@ -30,8 +30,7 @@ def create_saving():
     "max_hp":100,
     "time":360,
     "skills": {'1': "普通攻击",'2': "火球术",'3': "治疗术"},
-    "save_time":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime()),
-    "keys":{"wait":"p","sleep":"s","bag":"b","debug":"d","setting":"\x1b"}
+    "save_time":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
 }
     datar = json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
     f = open("save.save","w",encoding="utf-8")
@@ -97,7 +96,7 @@ def game():
             print()
 
             action = {}
-            special_action = {data["keys"]["wait"]:"等待半小时",data["keys"]["sleep"]:"睡觉",data["keys"]["bag"]:"背包",data["keys"]["debug"]:("DEBUG" if DEBUG else "DEBUG(不可用)"),data["keys"]["setting"]:"设置"}
+            special_action = {"p":"等待半小时","s":"睡觉","b":"背包","d":("DEBUG" if DEBUG else "DEBUG(不可用)")}
             f=open("events/index.json","r",encoding="utf-8")
             events = json.load(f)
             f.close()
@@ -116,11 +115,11 @@ def game():
                 event = selection[res][0]
             else:
                 event = res
-            if event == data["keys"]["wait"]:
+            if event == "p":
                 data["time"]+=30
-            elif event == data["keys"]["bag"]:
+            elif event == "b":
                 function.bag(data)
-            elif event == data["keys"]["debug"] and DEBUG:
+            elif event == "d" and DEBUG:
                 res = function.select(["退出","事件","战斗"],"DEBUG界面")
                 if res==1:
                     id = int(input("id:"))
@@ -140,10 +139,8 @@ def game():
                         data = old_data
                     print("输出：",r[1])
                     pygame.mixer.music.stop()
-            elif event == data["keys"]["sleep"]:
+            elif event == "s":
                 data["time"] = 1800
-            elif event == data["keys"]["setting"]:
-                function.setting(data)
             else:
                 if DEBUG:
                     print("going to play event...")

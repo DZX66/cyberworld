@@ -5,23 +5,16 @@
         "3": 1,
         "4": 1
     },
-    "days": 2,
+    "days": 1,
     "golds": 1000,
     "hp": 100,
-    "keys": {
-        "bag": "b",
-        "debug": "d",
-        "setting": "\u001b",
-        "sleep": " ",
-        "wait": "p"
-    },
     "location": "plain",
     "max_hp": 100,
     "passed_events": [
         0
     ],
     "san": 80,
-    "save_time": "2023-08-30 15:59:14",
+    "save_time": "2023-09-09 17:10:40",
     "skills": {
         "1": "\u666e\u901a\u653b\u51fb",
         "2": "\u706b\u7403\u672f",
