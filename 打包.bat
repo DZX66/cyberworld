@@ -1,1 +1,1 @@
-pyinstaller -F main.py --hidden-import pkg_resources.py2_warn
+pyinstaller -F -i cyberworld.ico main.py --hidden-import pkg_resources.py2_warn
