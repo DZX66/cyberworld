@@ -217,13 +217,14 @@ def main():
             print(".",end="",flush=True)
         print("成功")
         time.sleep(0.5)
-        print("运行路径：",os.getcwd())
+        print("\033[1;30m运行路径：",os.getcwd(),"\033[0m")
         print("欢迎回来，",os.getlogin())
         if os.path.exists("save.save"):
             f = open("save.save", "r", encoding="utf-8")
             save = json.load(f)
             f.close()
             print("当前存档：第",save["days"],"天",texts.location(save["location"]),"hp:",save["hp"],"/",save["max_hp"],save["golds"],"字符",save["save_time"])
+        print("\033[1;30m版本：Beta0.01\033[0m")
         res = function.select(["新存档","读取存档","退出"] if os.path.exists("save.save") else ["新存档","退出"])
         if res==0:
             if os.path.exists("save.save"):
