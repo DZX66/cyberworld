@@ -88,3 +88,14 @@ def keys(name:bytes):
         return "Space"
     else:
         return name.upper()
+def effect(name:str):
+    if name=="blood_losing":
+        return "流血"
+    elif name=="healing":
+        return "自愈"
+    elif name=="weak":
+        return "虚弱"
+    elif name=="powered":
+        return "力量"
+    elif name=="slowness":
+        return "缓慢"

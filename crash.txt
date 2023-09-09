@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "e:/文档/赛博世界/main.py", line 248, in <module>
+    main()
+  File "e:/文档/赛博世界/main.py", line 241, in main
+    game()
+  File "e:/文档/赛博世界/main.py", line 137, in game
+    r = function.battle(data,id,bool(is_escaped))
+  File "e:\文档\赛博世界\function.py", line 132, in battle
+    monster_hp = enemies(enemy)[2]
+TypeError: 'NoneType' object is not subscriptable

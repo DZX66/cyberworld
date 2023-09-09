@@ -43,9 +43,9 @@ def items(id:int):
     item_info = {
         0:["【荒原】的权限","荒原访客的证明，是玛莉特送给你的礼物。"],
         1:["齿轮","铜质，略有锈斑，好像用了挺久的。"],
-        2:["普通攻击","10-15伤害\n常见的delete函数，很容易被防御。"],
-        3:["火球术","5-10伤害，流血+3\n-为啥火球能造成流血呢？-废话，燃烧不就是流血吗。"],
-        4:["治疗术","10-15回复，血量100及以上时只有80%的效果，200及以上只有50%的效果（向下取整）\n不会有人用这个堆到1000点hp吧？"]
+        2:["普通攻击","10-15伤害 0消耗\n常见的delete函数，很容易被防御。"],
+        3:["火球术","5-10伤害，流血+3 2消耗\n-为啥火球能造成流血呢？-废话，燃烧不就是流血吗。"],
+        4:["治疗术","10-15回复，血量100及以上时只有80%的效果，200及以上只有50%的效果（向下取整） 1消耗\n不会有人用这个堆到1000点hp吧？"]
     } 
     return item_info[id]
 def get_item(data:dict,id:int,number:int):
@@ -107,7 +107,9 @@ def enemies(id:int):
     list skills:name,type,begin,end
     availabe type:attack,heal'''
     if id==0:
-        return (0,"自动保卫系统",40,[["攻击","attack",5,10]])
+        return (0,"自动保卫系统",40,[["子弹","attack",5,10,100],["缓速弹","otherside_effect","slowness",2,10]],[1,0,0])
+    else:
+        error('[error] 不存在的id:'+str(id))
 def decrease_hp(hp_decreased:int,hp:int,hp_max:int):
     '''in function battle:
     return:int edited_hp'''
@@ -116,17 +118,29 @@ def decrease_hp(hp_decreased:int,hp:int,hp_max:int):
     hp-=hp_decreased
     print("\033[u\033[K"+str(hp)+"/"+str(hp_max)+"    "+"\033[0;32m+"*math.ceil(hp/hp_max*10)+"\033[0;31m-"*min(10-math.ceil(hp/hp_max*10),10)+"\033[0m",flush=True)
     return hp
-def battle(data:dict,enemy:int,is_escaped:bool):
+def cost(skill):
+    """根据技能名返回消耗mp（int）"""
+    if skill=="普通攻击":
+        return 0
+    elif skill=="火球术":
+        return 2
+    elif skill=="治疗术":
+        return 1
+    else:
+        error("[error] 不存在的技能:"+skill)
+def battle(data:dict,enemy:int,is_escaped:bool,bgm="audio/Rude_Buster.flac"):
     '''返回值：[data,result]
     result:0：胜利 -1：逃跑 -2：失败'''
     monster_hp = enemies(enemy)[2]
     player_hp = data["hp"]
+    player_mp = 3
     monster_hp_max = monster_hp
     player_hp_max = data["max_hp"]
-    monster_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
-    player_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0}
+    monster_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0,"slowness":0}
+    player_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0,"slowness":0}
+    monster_choice_now=0
     turn = 1
-    pygame.mixer.music.load("audio/Rude_Buster.flac")
+    pygame.mixer.music.load(bgm)
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
     while True:
@@ -141,8 +155,12 @@ def battle(data:dict,enemy:int,is_escaped:bool):
             print("力量",monster_effects["powered"])
         if monster_effects["weak"]>0:
             print("虚弱",monster_effects["weak"])
+        if monster_effects["slowness"]>0:
+            print("缓慢",monster_effects["slowness"])
         print("你的生命值 ：", player_hp,"/",player_hp_max)
         print("\033[0;32m+"*math.ceil(player_hp/player_hp_max*10)+"\033[0;31m-"*min(10-math.ceil(player_hp/player_hp_max*10),10)+"\033[0m")
+        print("你的精神力 ：", player_mp,"/",5)
+        print("\033[0;34m+"*player_mp+"\033[0;31m-"*(5-player_mp)+"\033[0m")
         if player_effects["blood_losing"]>0:
             print("流血",player_effects["blood_losing"])
         if player_effects["healing"]>0:
@@ -151,56 +169,66 @@ def battle(data:dict,enemy:int,is_escaped:bool):
             print("力量",player_effects["powered"])
         if player_effects["weak"]>0:
             print("虚弱",player_effects["weak"])
-
-        action = {}#{1:'xxx',2:'xxx',3:'xxx',4:'xxx'}
-        if True:
-            action[1] = data["skills"]['1']
-        if True:
-            action[2] = data["skills"]['2']
-        if True:
-            action[3] = data["skills"]['3']
-        if is_escaped:
-            action[4] = "逃跑"
-
-        selection = []#[[1,'xxx'],[2,'xxx'],...]
-        for i in action:
-            selection.append([i, action[i]])
-
-        out = []
-        for i in selection:
-            out.append(i[1])
-
-        res = select(out, "请选择你的行动：")
-        choice = selection[res][1]
-
-        if choice == '普通攻击':
-            damage = random.randint(10, 15)
-            print("你使用", data["skills"]['1'], "对敌方造成了", damage, "点伤害！")
-            monster_hp=decrease_hp(damage,monster_hp,monster_hp_max)
-        elif choice == '火球术':
-            damage = random.randint(5, 10)
-            print("你使用", data["skills"]['2'], "对敌方造成了", damage, "点伤害！")
-            monster_hp=decrease_hp(damage,monster_hp,monster_hp_max)
-            monster_effects["blood_losing"] += 3
-            print(data["skills"]['2'],"的效果：敌方流血+3",flush=True)
-        elif choice == '治疗术':
-            heal = random.randint(10, 15)
-            if player_hp < 100:
-                heal = heal
-            elif player_hp < 200:
-                heal = math.floor(0.8*heal)
-            else:
-                heal = math.floor(0.5*heal)
-            print("你使用", data["skills"]['3'], "恢复了", heal, "点生命值！")
-            player_hp=decrease_hp(-heal,player_hp,player_hp_max)
-        elif choice == '逃跑':
-            talk("你选择逃跑！")
-            if player_hp>player_hp_max:
-                data["hp"]=player_hp_max
-            else:
-                data["hp"]=player_hp
-            return [data,-1]
+        if player_effects["slowness"]>0:
+            print("缓慢",player_effects["slowness"])
         
+        if player_effects["slowness"] > 0 :
+            #缓慢效果
+            talk("缓慢效果：跳过回合")
+            player_effects["slowness"] -= 1
+        else:
+            action = {}#{1:'xxx',2:'xxx',3:'xxx',4:'xxx'}
+            if player_mp>=cost(data["skills"]['1']):
+                action[1] = data["skills"]['1']
+            if player_mp>=cost(data["skills"]['2']):
+                action[2] = data["skills"]['2']
+            if player_mp>=cost(data["skills"]['3']):
+                action[3] = data["skills"]['3']
+            if is_escaped:
+                action[4] = "逃跑"
+
+            selection = []#[[1,'xxx'],[2,'xxx'],...]
+            for i in action:
+                selection.append([i, action[i]])
+
+            out = []
+            for i in selection:
+                out.append(i[1])
+
+            res = select(out, "请选择你的行动：")
+            choice = selection[res][1]
+
+            if choice == '普通攻击':
+                player_mp-=0
+                damage = random.randint(10, 15)
+                print("普通攻击对敌方造成了", damage, "点伤害！")
+                monster_hp=decrease_hp(damage,monster_hp,monster_hp_max)
+            elif choice == '火球术':
+                player_mp-=2
+                damage = random.randint(5, 10)
+                print("你使用 火球术 对敌方造成了", damage, "点伤害！")
+                monster_hp=decrease_hp(damage,monster_hp,monster_hp_max)
+                monster_effects["blood_losing"] += 3
+                print(data["skills"]['2'],"的效果：敌方流血+3",flush=True)
+            elif choice == '治疗术':
+                player_mp-=1
+                heal = random.randint(10, 15)
+                if player_hp < 100:
+                    heal = heal
+                elif player_hp < 200:
+                    heal = math.floor(0.8*heal)
+                else:
+                    heal = math.floor(0.5*heal)
+                print("你使用 治疗术 恢复了", heal, "点生命值！")
+                player_hp=decrease_hp(-heal,player_hp,player_hp_max)
+            elif choice == '逃跑':
+                talk("你选择逃跑！")
+                if player_hp>player_hp_max:
+                    data["hp"]=player_hp_max
+                else:
+                    data["hp"]=player_hp
+                return [data,-1]
+            
         if monster_effects["blood_losing"]>0:
             print("敌方受到流血伤害",3*monster_effects["blood_losing"],"点！")
             monster_hp=decrease_hp(3*monster_effects["blood_losing"],monster_hp,monster_hp_max)
@@ -214,13 +242,28 @@ def battle(data:dict,enemy:int,is_escaped:bool):
                 data["hp"]=player_hp
             return [data,0]
         time.sleep(1)
-        monster_choice = random.randint(1, len(enemies(enemy)[3]))
-        monster_choice = enemies(enemy)[3][monster_choice-1]
-        if monster_choice[1] == "attack":
-            damage = random.randint(monster_choice[2], monster_choice[3])
-            print("敌方用",monster_choice[0],"对你造成了", damage, "点伤害！")
-            player_hp=decrease_hp(damage,player_hp,player_hp_max)
-        
+        if monster_effects["slowness"]>0:
+            print("缓慢效果：敌方跳过回合")
+            time.sleep(1)
+            monster_effects["slowness"]-=1
+        else:
+            monster_choice = enemies(enemy)[4][monster_choice_now]
+            if monster_choice_now==len(enemies(enemy)[4])-1:
+                monster_choice_now = 0
+            else:
+                monster_choice_now+=1
+            monster_choice = enemies(enemy)[3][monster_choice]
+            if monster_choice[1] == "attack":
+                damage = random.randint(monster_choice[2], monster_choice[3])
+                print("敌方用",monster_choice[0],"对你造成了", damage, "点伤害！")
+                player_hp=decrease_hp(damage,player_hp,player_hp_max)
+            elif monster_choice[1] == "self_effect":
+                monster_effects[monster_choice[2]]+=monster_choice[3]
+                print("敌方用",monster_choice[0],"对自己增加了", texts.effect(monster_choice[2]),monster_choice[3],"层！")
+            elif monster_choice[1] == "otherside_effect":
+                player_effects[monster_choice[2]]+=monster_choice[3]
+                print("敌方用",monster_choice[0],"对你增加了", texts.effect(monster_choice[2]),monster_choice[3],"层！")
+            
         if player_effects["blood_losing"]>0:
             print("你受到流血伤害",3*player_effects["blood_losing"],"点！")
             player_hp=decrease_hp(damage,player_hp,player_hp_max)
@@ -237,6 +280,8 @@ def battle(data:dict,enemy:int,is_escaped:bool):
             return [data,-2]
         talk("")
         turn += 1
+        if player_mp <5 and player_effects["slowness"]<=0:
+            player_mp+=1
 
 def library():
     os.system("cls")
