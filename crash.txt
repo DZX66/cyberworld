@@ -1,10 +1,10 @@
 Traceback (most recent call last):
-  File "e:/文档/赛博世界/main.py", line 248, in <module>
+  File "e:/文档/赛博世界/main.py", line 249, in <module>
     main()
-  File "e:/文档/赛博世界/main.py", line 241, in main
+  File "e:/文档/赛博世界/main.py", line 234, in main
     game()
   File "e:/文档/赛博世界/main.py", line 137, in game
     r = function.battle(data,id,bool(is_escaped))
-  File "e:\文档\赛博世界\function.py", line 132, in battle
-    monster_hp = enemies(enemy)[2]
-TypeError: 'NoneType' object is not subscriptable
+  File "e:\文档\赛博世界\function.py", line 285, in battle
+    player_hp=decrease_hp(damage,player_hp,player_hp_max,speed=1/player_effects["slowness"] if player_effects["slowness"]>0 else 1)
+UnboundLocalError: local variable 'damage' referenced before assignment

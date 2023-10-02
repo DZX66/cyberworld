@@ -29,7 +29,7 @@ def create_saving():
     "hp":100,
     "max_hp":100,
     "time":360,
-    "skills": {'1': "普通攻击",'2': "火球术",'3': "治疗术"},
+    "skills": {'attack': "普通攻击",'magic': "火球术",'curer': "治疗术"},
     "save_time":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
 }
     datar = json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
