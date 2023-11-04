@@ -44,10 +44,10 @@ def items(id:int):
         0:["【荒原】的权限","荒原访客的证明，是玛莉特送给你的礼物。"],
         1:["齿轮","铜质，略有锈斑，好像用了挺久的。"],
         2:["普通攻击","攻击 10-15伤害 0消耗\n常见的delete函数，很容易被防御。"],
-        3:["火球术","辅助 5-10伤害，流血+3 2消耗\n-为啥火球能造成流血呢？-废话，燃烧不就是流血吗。"],
+        3:["火球术","辅助 5-10伤害，流血+3 1消耗\n-为啥火球能造成流血呢？-废话，燃烧不就是流血吗。"],
         4:["治疗术","生存 10-15回复，血量100及以上时只有80%的效果，200及以上只有50%的效果（向下取整） 1消耗\n一直堆hp也会有尽头的哦。"],
-        5:["伺机而动","辅助 给对方添加2层缓速、3层自愈，为自己添加2层流血 2消耗\n为创造条件而牺牲。"],
-        6:["月下誓约","攻击 10+(己方流血层数*20)伤害，（己方流血层数*5)回复，给己方添加3层流血、5层自愈，敌方添加3层流血，并清空敌方自愈层数 0消耗\n以红月为誓，此生永不分离！"]
+        5:["伺机而动","辅助 给对方添加2层缓速、3层自愈，为自己添加2层流血 1消耗\n为创造条件而牺牲。"],
+        6:["月下誓约","攻击 10+(己方流血层数*20)伤害，(己方流血层数*5)回复\n当投影【红月】不存在时：\n给己方添加3层流血、5层自愈\n敌方添加3层流血，并清空敌方自愈层数\n创建投影：红月(持续3回合)\n当投影【红月】存在时：\n给己方添加1层流血\n0消耗\n以红月为誓，此生永不分离！"]
     } 
     return item_info[id]
 def get_item(data:dict,id:int,number:int):
@@ -127,11 +127,11 @@ def cost(skill):
     if skill=="普通攻击":
         return 0
     elif skill=="火球术":
-        return 2
+        return 1
     elif skill=="治疗术":
         return 1
     elif skill=='伺机而动':
-        return 2
+        return 1
     elif skill=='月下誓约':
         return 0
     else:
@@ -148,6 +148,7 @@ def battle(data:dict,enemy:int,is_escaped:bool,bgm="audio/Rude_Buster.flac"):
     player_effects = {"blood_losing":0,"healing":0,"weak":0,"powered":0,"slowness":0}
     monster_choice_now=0
     turn = 1
+    projection = {}
     pygame.mixer.music.load(bgm)
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
@@ -180,6 +181,11 @@ def battle(data:dict,enemy:int,is_escaped:bool,bgm="audio/Rude_Buster.flac"):
                 print("虚弱",player_effects["weak"])
             if player_effects["slowness"]>0:
                 print("缓慢",player_effects["slowness"])
+            print()
+            if projection!={}:
+                print("投影：")
+                for i in projection:
+                    print(i,projection[i])
         
         if player_effects["slowness"] > 0 :
             #缓慢效果
@@ -209,12 +215,13 @@ def battle(data:dict,enemy:int,is_escaped:bool,bgm="audio/Rude_Buster.flac"):
             choice = selection[res][1]
 
             if choice == '普通攻击':
-                player_mp-=0
+                if player_mp <5:
+                    player_mp+=1
                 damage = random.randint(10, 15)
                 print("普通攻击对敌方造成了", damage, "点伤害！")
                 monster_hp=decrease_hp(damage,monster_hp,monster_hp_max)
             elif choice == '火球术':
-                player_mp-=2
+                player_mp-=1
                 damage = random.randint(5, 10)
                 print("你使用 火球术 对敌方造成了", damage, "点伤害！")
                 monster_hp=decrease_hp(damage,monster_hp,monster_hp_max)
@@ -232,21 +239,28 @@ def battle(data:dict,enemy:int,is_escaped:bool,bgm="audio/Rude_Buster.flac"):
                 print("你使用 治疗术 恢复了", heal, "点生命值！")
                 player_hp=decrease_hp(-heal,player_hp,player_hp_max)
             elif choice == '伺机而动':
-                player_mp-=2
+                player_mp-=1
                 print("伺机而动的效果：给对方添加2层缓速、3层自愈，为自己添加2层流血")
                 monster_effects["slowness"] += 2
                 monster_effects["healing"] += 3
                 player_effects["blood_losing"] += 2
             elif choice == '月下誓约':
+                if player_mp <5:
+                    player_mp+=1
                 print("红月升起，造成",10+player_effects["blood_losing"]*20,"伤害")
                 monster_hp=decrease_hp(10+player_effects["blood_losing"]*20,monster_hp,monster_hp_max)
                 print("回复了",player_effects["blood_losing"]*5,"生命")
                 player_hp=decrease_hp(-player_effects["blood_losing"]*5,player_hp,player_hp_max)
-                print("红月赐福：己方获得3层流血、5层自愈，敌方获得3层流血，并清空自愈层数")
-                player_effects["blood_losing"]+=3
-                monster_effects["blood_losing"]+=3
-                player_effects["healing"]+=5
-                monster_effects["healing"]-=monster_effects["healing"] if monster_effects["healing"]>0 else 0
+                if "红月" not in projection:
+                    print("红月赐福：己方获得3层流血、5层自愈，敌方获得3层流血，并清空自愈层数")
+                    player_effects["blood_losing"]+=3
+                    monster_effects["blood_losing"]+=3
+                    player_effects["healing"]+=5
+                    monster_effects["healing"]-=monster_effects["healing"] if monster_effects["healing"]>0 else 0
+                    projection['红月']=3
+                else:
+                    print("红月赐福：己方添加1层流血")
+                    player_effects["blood_losing"]+=1
             elif choice == '逃跑':
                 talk("你选择逃跑！")
                 if player_hp>player_hp_max:
@@ -319,9 +333,16 @@ def battle(data:dict,enemy:int,is_escaped:bool,bgm="audio/Rude_Buster.flac"):
             return [data,-2]
         if player_effects["slowness"]<=0:
             talk("")
+        if projection!=None:
+            del_projection=[]
+            for i in projection:
+                projection[i]-=1
+                if projection[i]==0:
+                    del_projection.append(i)
+            for i in del_projection:
+                del projection[i]
         turn += 1
-        if player_mp <5 and player_effects["slowness"]<=0:
-            player_mp+=1
+        
 
 def library():
     os.system("cls")
